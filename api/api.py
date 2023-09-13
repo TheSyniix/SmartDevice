@@ -9,17 +9,17 @@ import json
 
 app = bottle.Bottle()
 # enter your server IP address/domain name
-HOST = "x.x.x.x" # or "domain.com"
+HOST = "34677.hosts1.ma-cloud.nl" # or "domain.com"
 # database name, if you want just to connect to MySQL server, leave it empty
-DATABASE = "database"
+DATABASE = "c8248smart"
 # this is the user you create
-USER = "python-user"
+USER = "c8248guest"
 # user password
-PASSWORD = "Password1$"
+PASSWORD = "guestNumber"
 # connect to MySQL server
 db_connection = connector.connect(host=HOST, database=DATABASE, user=USER, password=PASSWORD)
 print("Connected to:", db_connection.get_server_info())
-# enter your code here!
+# enter your code here! 
 
 mycursor = db_connection.cursor
 
@@ -40,10 +40,21 @@ def enable_cors(fn):
 @enable_cors
 def insert():
     data = request.get_json()
-    one = data['one']
-    two = data['two']
-    sql = "INSERT INTO xxxx (xxxx, xxxx) VALUES('{}', '{}');".format(one, two)
+    one = data['moisture']
+    two = data['time']
+    sql = "INSERT INTO smartDeviceData (moisture, time) VALUES('{}', '{}');".format(one, two)
     mycursor.execute(sql)
+
+@route('/fetch')
+@enable_cors
+def fetch():
+    sql = "SELECT * FROM smartDeviceData;"
+    mycursor.execute(sql)
+    myresult = mycursor.fetchall()
+    if myresult:
+        myresult = json.dumps(myresult)
+        return myresult
+    return error404
 
 @route('/hello')
 def hello():
