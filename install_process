@@ -5,3 +5,9 @@ https://www.youtube.com/watch?v=PzlQPNNt8T4
 pip install mysql-connector-python
 
 pip install bottle
+
+install mysql
+mysql -u root -p
+
+CREATE DATABASE SmartDev;
+CREATE TABLE deviceData ( `moisture` FLOAT NOT NULL , `time` FLOAT NOT NULL ); 
