@@ -44,3 +44,13 @@ def insert():
     two = data['two']
     sql = "INSERT INTO xxxx (xxxx, xxxx) VALUES('{}', '{}');".format(one, two)
     mycursor.execute(sql)
+
+@route('/hello')
+def hello():
+    return "Hello World!"
+
+@error(404)
+def error404(error):
+    return 'Nothing here, sorry'
+
+run(host='localhost', port=8080, debug=True)
