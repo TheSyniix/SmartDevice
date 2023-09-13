@@ -1,0 +1,5 @@
+pip install bottle-sqlite
+https://www.youtube.com/watch?v=PzlQPNNt8T4
+
+
+pip install mysql-connector-python
