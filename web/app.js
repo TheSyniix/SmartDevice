@@ -1,3 +1,4 @@
+
 const chart = document.getElementById('myChart');
 let lineChart = new Chart(chart, {
         type:'line',

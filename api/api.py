@@ -9,19 +9,19 @@ import json
 
 app = bottle.Bottle()
 # enter your server IP address/domain name
-HOST = "34677.hosts1.ma-cloud.nl" # or "domain.com"
+HOST = "localhost" # or "domain.com"
 # database name, if you want just to connect to MySQL server, leave it empty
-DATABASE = "c8248smart"
+DATABASE = "SmartDev"
 # this is the user you create
-USER = "c8248guest"
+USER = "root"
 # user password
-PASSWORD = "guestNumber"
+PASSWORD = ""
 # connect to MySQL server
 db_connection = connector.connect(host=HOST, database=DATABASE, user=USER, password=PASSWORD)
 print("Connected to:", db_connection.get_server_info())
 # enter your code here! 
 
-mycursor = db_connection.cursor
+mycursor = db_connection.cursor()
 
 def enable_cors(fn):
     def _enable_cors(*args, **kwargs):
@@ -36,25 +36,29 @@ def enable_cors(fn):
 
     return _enable_cors
 
-@route('/insert')
+@route('/insert', method=['OPTIONS', 'POST'])
 @enable_cors
 def insert():
-    data = request.get_json()
+    
+    data = request.json
     one = data['moisture']
     two = data['time']
-    sql = "INSERT INTO smartDeviceData (moisture, time) VALUES('{}', '{}');".format(one, two)
+    sql = "INSERT INTO deviceData (moisture, time) VALUES({}, {});".format(one, two)
     mycursor.execute(sql)
+    db_connection.commit()
+    return 'it worked!'
 
 @route('/fetch')
 @enable_cors
 def fetch():
-    sql = "SELECT * FROM smartDeviceData;"
+    sql = "SELECT * FROM deviceData;"
     mycursor.execute(sql)
     myresult = mycursor.fetchall()
     if myresult:
         myresult = json.dumps(myresult)
         return myresult
     return error404
+
 
 @route('/hello')
 def hello():
@@ -64,4 +68,4 @@ def hello():
 def error404(error):
     return 'Nothing here, sorry'
 
-run(host='localhost', port=8080, debug=True)
+run(host='localhost', port=3030, debug=True)
