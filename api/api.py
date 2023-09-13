@@ -1,6 +1,5 @@
 import bottle
 import mysql.connector as connector
-import bottle_mysql
 from bottle import route, run
 from bottle import error
 from bottle import response
