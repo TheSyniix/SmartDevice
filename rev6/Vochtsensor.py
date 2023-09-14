@@ -11,7 +11,7 @@ from PIL import Image, ImageDraw, ImageFont
 import requests
 
 #set api url
-url = "http://localhost:3030/insert"
+#url = "http://localhost:3030/insert"
 
 # GPIO pin servo motor
 servo_pin = 22
@@ -101,7 +101,7 @@ try:
         timestamps.append(verlopen_tijd)
         
         # Print de moisture percentage in console
-        print(f"Moisture Level: {moisture_percentage:.2f}%")
+        #print(f"Moisture Level: {moisture_percentage:.2f}%")
         
         # lijst limiet
         max_points = 250
