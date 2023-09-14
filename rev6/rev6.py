@@ -8,6 +8,10 @@ from statistics import mean
 from gpiozero import MCP3008
 import matplotlib.pyplot as plt
 from PIL import Image, ImageDraw, ImageFont
+import requests
+
+#set api url
+url = "http://localhost:3030/insert"
 
 # GPIO pin servo motor
 servo_pin = 22
@@ -173,6 +177,14 @@ plt.xlabel("Tijd in sec")
 plt.ylabel("Moisture Level (%)")
 plt.title("Moisture Level Over Time")
 plt.grid(True)
+
+#send request to api
+current_timestamp = 0
+for x in value_list:
+    myobj = {"moisture":x, "time":timestamps[current_timestamp]}
+    x = requests.post(url, json = myobj)
+    current_timestamp+=1
+
 
 # Save the plot as a PDF file
 plt.savefig("moisture_plot.pdf")
